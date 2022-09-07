@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "evenless_api"
+version = "0.1.0"
+description = "The backend api for the evenless mail reader"
+authors = ["Philipp Hack <philipp.hack@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = "^0.82.0"
+notmuch = "^0.29.2"
+
+[tool.poetry.dev-dependencies]
+black = "^22.8.0"
+pyproject-flake8 = "^0.0.1-alpha.5"
+isort = "^5.10.1"
+pytest = "^7.1.3"
+pytest-sugar = "^0.9.5"
+pytest-cov = "^3.0.0"
+uvicorn = "^0.18.3"
+pre-commit = "^2.20.0"
