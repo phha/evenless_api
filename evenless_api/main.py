@@ -41,7 +41,3 @@ def search_messages(
 @app.post("/message/", response_model=Message)
 def get_message(id: str, db: nm.Database = Depends(get_db)) -> Message:
     return Message.from_message(db.find_message(id))
-    # with open(db.find_message(id).get_filename(), "r") as fp:
-    #     message: EmailMessage = email.message_from_file(
-    #         fp, _class=EmailMessage, policy=email.policy.default
-    #     )

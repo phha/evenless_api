@@ -19,6 +19,7 @@ pytest-sugar = "^0.9.5"
 pytest-cov = "^3.0.0"
 uvicorn = "^0.18.3"
 pre-commit = "^2.20.0"
+requests = "^2.28.1"
 
 [tool.black]
 line-length = 88
@@ -47,6 +48,6 @@ accept-encodings = 'utf-8'
 [tool.pytest.ini_options]
 testpaths = ["tests",]
 filterwarnings = ["ignore::DeprecationWarning",]
-addopts = "-rfEX -p pytester --strict-markers --maxfail=2 --cov"
+addopts = "-rfEX -p pytester --strict-markers --maxfail=2 --cov --import-mode=importlib"
 python_files = ["test_*.py"]
 xfail_strict = true
