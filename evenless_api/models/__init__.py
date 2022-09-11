@@ -1,4 +1,5 @@
 import email.policy
+
 from datetime import datetime
 from email import message_from_file
 from email.message import EmailMessage
@@ -6,6 +7,7 @@ from enum import Enum
 from typing import List, cast
 
 import notmuch as nm
+
 from pydantic import BaseModel
 
 

@@ -1,11 +1,9 @@
-import email
-import email.parser
-import email.policy
 import os
-from email.message import EmailMessage
+
 from typing import Generator, List
 
 import notmuch as nm
+
 from fastapi import Depends, FastAPI
 
 from .models import Config, Message, MessageSummary, Query
