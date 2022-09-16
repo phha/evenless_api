@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Iterable
 
-from evenless_api.models import MessageSummary
+from evenless_api.schemas import MessageSummary
 
 
 class MockMessage(MessageSummary):

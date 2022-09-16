@@ -4,7 +4,7 @@ from fastapi import Depends, FastAPI
 
 from evenless_api import dependencies
 
-from .models import Config, Message, MessageSummary, Query
+from .schemas import Config, Message, MessageSummary, Query
 
 app = FastAPI(title="EvenLess")
 
