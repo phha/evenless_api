@@ -1,3 +1,3 @@
-from . import message
+from .message import MockMessage
 
-MockMessage = message.MockMessage
+__all__ = ["MockMessage"]
