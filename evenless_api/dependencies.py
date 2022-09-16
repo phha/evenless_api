@@ -1,16 +1,27 @@
 import email.policy
-import os
 
 from collections.abc import Generator
 from email import message_from_file
 from email.message import EmailMessage
+from functools import lru_cache
 from typing import Callable, cast
 
 import notmuch as nm
 
+from fastapi import Depends
 
-def get_db() -> Generator[nm.Database, None, None]:
-    with nm.Database(os.environ["EVENLESS_DB_PATH"]) as db:
+from evenless_api.settings import Settings
+
+
+@lru_cache
+def get_settings() -> Settings:
+    return Settings()
+
+
+def get_db(
+    settings: Settings = Depends(get_settings),
+) -> Generator[nm.Database, None, None]:
+    with nm.Database(settings.notmuch_db_path) as db:
         yield db
 
 
