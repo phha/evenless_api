@@ -1,5 +1,6 @@
-from typing import Callable
+from typing import Callable, ParamSpec, TypeVar
 
-from fastapi.testclient import TestClient
+_T = TypeVar("_T")
+_P = ParamSpec("_P")
 
-ClientFactory = Callable[..., TestClient]
+OverridesKey = Callable[_P, _T]
