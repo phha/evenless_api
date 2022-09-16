@@ -5,7 +5,7 @@ from unittest.mock import Mock, call
 from fastapi.testclient import TestClient
 
 from evenless_api import dependencies
-from evenless_api.schemas import Message, MessageSummary, SortOrder
+from evenless_api.schema import Message, MessageSummary, SortOrder
 
 from . import Overrides
 from .mocks import MockMessage
