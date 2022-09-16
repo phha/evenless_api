@@ -1,12 +1,14 @@
 import notmuch as nm
 
 from fastapi import Depends, FastAPI
+from fastapi.middleware.gzip import GZipMiddleware
 
 from evenless_api import dependencies
 
 from .schemas import Info, Message, MessageSummary, Query
 
 app = FastAPI(title="EvenLess")
+app.add_middleware(GZipMiddleware)
 
 
 @app.get("/", response_model=Info)
