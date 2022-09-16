@@ -6,7 +6,7 @@ import notmuch as nm
 from pydantic import BaseModel
 
 
-class Config(BaseModel):
+class Info(BaseModel):
     """Configuration information"""
 
     database_path: str

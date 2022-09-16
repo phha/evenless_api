@@ -4,15 +4,15 @@ from fastapi import Depends, FastAPI
 
 from evenless_api import dependencies
 
-from .schemas import Config, Message, MessageSummary, Query
+from .schemas import Info, Message, MessageSummary, Query
 
 app = FastAPI(title="EvenLess")
 
 
-@app.get("/", response_model=Config)
-def get_root(db: nm.Database = Depends(dependencies.get_db)) -> Config:
+@app.get("/", response_model=Info)
+def get_root(db: nm.Database = Depends(dependencies.get_db)) -> Info:
     """Get configuration information"""
-    return Config(database_path=db.get_path(), database_version=db.get_version())
+    return Info(database_path=db.get_path(), database_version=db.get_version())
 
 
 @app.get("/tags/")
