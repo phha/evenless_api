@@ -6,9 +6,9 @@ from fastapi.testclient import TestClient
 
 from evenless_api import dependencies
 from evenless_api.schemas import Message, MessageSummary, SortOrder
-from tests.conftest import Overrides
 
-from ..mocks import MockMessage
+from . import Overrides
+from .mocks import MockMessage
 
 
 def test_get_root(client: TestClient, mock_db: Mock) -> None:
