@@ -20,6 +20,7 @@ pytest-cov = "^3.0.0"
 uvicorn = "^0.18.3"
 pre-commit = "^2.20.0"
 requests = "^2.28.1"
+vulture = "^2.5"
 
 [tool.black]
 line-length = 88
