@@ -49,6 +49,6 @@ accept-encodings = 'utf-8'
 [tool.pytest.ini_options]
 testpaths = ["tests",]
 filterwarnings = ["ignore::DeprecationWarning",]
-addopts = "-rfEX -p pytester --strict-markers --maxfail=2 --cov=evenless_api --import-mode=importlib"
+addopts = "-rfEX -p pytester -p no:sugar --strict-markers --maxfail=2 --cov=evenless_api --import-mode=importlib"
 python_files = ["test_*.py"]
 xfail_strict = true

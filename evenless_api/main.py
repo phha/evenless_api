@@ -7,7 +7,7 @@ from evenless_api import dependencies
 
 from .schema import Info, Message, MessageSummary, Query
 
-app = FastAPI(title="EvenLess")
+app = FastAPI(title="Evenless")
 app.add_middleware(GZipMiddleware)
 
 

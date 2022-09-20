@@ -4,6 +4,7 @@ from collections.abc import Generator
 from email import message_from_file
 from email.message import EmailMessage
 from functools import lru_cache
+from pathlib import Path
 from typing import Callable, cast
 
 import notmuch as nm
@@ -25,9 +26,9 @@ def get_db(
         yield db
 
 
-def get_message_body() -> Callable[[str], str | None]:
-    def inner(filename: str) -> str | None:
-        with open(filename, "r") as fp:
+def get_message_body() -> Callable[[Path], str | None]:
+    def inner(file: Path) -> str | None:
+        with file.open("r") as fp:
             email_message = cast(
                 EmailMessage,
                 message_from_file(fp, _class=EmailMessage, policy=email.policy.default),
