@@ -92,6 +92,9 @@ def test_get_message(
 
     # then
     assert response.status_code == 200
+    assert message.body == body
+    assert message.message_id == mock_message.get_message_id()
     assert message.date == mock_message.get_date()
+    assert message.tags == mock_message.get_tags()
     mock_db.find_message.assert_called_once_with(mock_message.get_message_id())
     mock_get_email_body.assert_called_once_with(mock_message.get_filename())
