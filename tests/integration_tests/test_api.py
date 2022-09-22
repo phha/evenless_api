@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Callable, Iterable
-from unittest.mock import Mock, call
+from unittest.mock import MagicMock, Mock, call
 
 from fastapi.testclient import TestClient
 
@@ -8,7 +8,6 @@ from evenless_api import dependencies
 from evenless_api.schema import Message, MessageSummary, SortOrder
 
 from . import Overrides
-from .mocks import MockMessage
 
 
 def test_get_root(client: TestClient, mock_db: Mock) -> None:
@@ -42,7 +41,9 @@ def test_get_tags(client: TestClient, mock_db: Mock) -> None:
     mock_db.get_all_tags.assert_called_once()
 
 
-def test_search_messages(client: TestClient, mock_db: Mock) -> None:
+def test_search_messages(
+    client: TestClient, mock_db: Mock, message_mocker: Callable[..., MagicMock]
+) -> None:
     # given
     order = SortOrder.oldest_first
     body_json = {"string": "FooBar", "exclude_tags": ["foo"], "order": order.value}
@@ -57,7 +58,7 @@ def test_search_messages(client: TestClient, mock_db: Mock) -> None:
             subject="Subject {i}",
         )
         messages.append(msg)
-    notmuch_messages = [MockMessage(**m.dict()) for m in messages]
+    notmuch_messages = [message_mocker(**m.dict()) for m in messages]
     mock_query = mock_db.create_query.return_value
     mock_query.search_messages.return_value = notmuch_messages
     expected_tags = [call(t) for t in body_json["exclude_tags"]]
@@ -74,33 +75,23 @@ def test_search_messages(client: TestClient, mock_db: Mock) -> None:
     mock_query.set_sort.assert_called_once_with(order.numeric_value)
 
 
-def test_get_message(client: TestClient, overrides: Overrides, mock_db: Mock) -> None:
+def test_get_message(
+    client: TestClient, overrides: Overrides, mock_db: Mock, mock_message
+) -> None:
     # given
-    message_id = "some message"
-    body = "Test Message"
-    filename = "mail.file"
-    summary = MockMessage(
-        message_id=message_id,
-        date=datetime.now(),
-        sender="foo@bar",
-        recipient="bar@foo",
-        subject="Test",
-        tags=["Inbox"],
-        filename=filename,
-        body=body,
-    )
-    msg = Message(**summary.dict())
-    mock_db.find_message.return_value = summary
+    body = "Message Body"
+    mock_db.find_message.return_value = mock_message
     mock_get_email_body = overrides.mock(
         dependencies.get_message_body, Callable[[str], str]
     )
     mock_get_email_body.return_value = body
 
     # when
-    response = client.post(f"/message/?message_id={message_id}")
+    response = client.post(f"/message/?message_id={mock_message.get_message_id()}")
+    message = Message.parse_obj(response.json())
 
     # then
     assert response.status_code == 200
-    assert Message.parse_obj(response.json()) == msg
-    mock_db.find_message.assert_called_once_with(message_id)
-    mock_get_email_body.assert_called_once_with(filename)
+    assert message.date == mock_message.get_date()
+    mock_db.find_message.assert_called_once_with(mock_message.get_message_id())
+    mock_get_email_body.assert_called_once_with(mock_message.get_filename())
